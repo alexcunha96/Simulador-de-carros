@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101513">
+  <meta name="description" content="Um simulador de gestão de stand automóvel: compra, prepara e vende carros usados.">
+  <title>Garagem — Simulador de Revenda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#inicio" aria-label="Garagem, início">
+        <span class="brand-mark">G<span>+</span></span>
+        <span class="brand-copy">GARAGEM<small>SIMULADOR DE NEGÓCIO</small></span>
+      </a>
+      <div class="side-label">GESTÃO</div>
+      <nav class="main-nav" aria-label="Navegação principal">
+        <button class="nav-link active" data-view="inicio"><span class="nav-icon">▦</span> Visão geral</button>
+        <button class="nav-link" data-view="mercado"><span class="nav-icon">⌕</span> Mercado de usados</button>
+        <button class="nav-link" data-view="stand"><span class="nav-icon">▤</span> O meu stand <span class="nav-count" id="nav-stock">0</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="goal-card">
+          <div class="goal-icon">🏁</div>
+          <div class="goal-title">O teu objetivo</div>
+          <p>Constrói um negócio de confiança e atinge <strong>100.000 €</strong> em capital.</p>
+          <div class="goal-track"><span id="goal-progress"></span></div>
+          <div class="goal-caption"><span id="goal-current">0 €</span><span>100.000 €</span></div>
+        </div>
+        <div class="sidebar-foot"><span class="online-dot"></span> Simulação guardada neste dispositivo</div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark">G<span>+</span></span> GARAGEM</div>
+        <div class="breadcrumb">O TEU NEGÓCIO <span>/</span> <strong id="crumb-title">VISÃO GERAL</strong></div>
+        <div class="top-actions"><div class="day-pill"><span>📅</span> Dia <strong id="top-day">1</strong></div><button class="icon-button" id="reset-button" title="Recomeçar simulação" aria-label="Recomeçar simulação">↻</button></div>
+      </header>
+
+      <section class="view active" id="view-inicio">
+        <div class="welcome-row">
+          <div><div class="eyebrow"><span class="live-dot"></span> O TEU STAND ESTÁ ABERTO</div><h1>Bom dia, gerente<span class="accent">.</span></h1><p class="subtitle">Cada carro é uma oportunidade. Faz o teu próximo negócio.</p></div>
+          <button class="primary-button" id="advance-day"><span>Avançar um dia</span><span class="button-arrow">→</span></button>
+        </div>
+        <div class="stat-grid">
+          <article class="stat-card"><div class="stat-top"><span>Capital disponível</span><span class="stat-icon green">€</span></div><div class="stat-value" id="cash-value">35.000 €</div><div class="stat-note positive">O teu dinheiro para investir</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Valor do stock</span><span class="stat-icon blue">▣</span></div><div class="stat-value" id="stock-value">0 €</div><div class="stat-note" id="stock-note">0 carros no stand</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Reputação</span><span class="stat-icon amber">★</span></div><div class="stat-value"><span id="reputation-value">50</span><small class="out-of"> / 100</small></div><div class="reputation-meter"><span id="reputation-bar"></span></div></article>
+          <article class="stat-card"><div class="stat-top"><span>Lucro total</span><span class="stat-icon purple">↗</span></div><div class="stat-value" id="profit-value">0 €</div><div class="stat-note" id="sales-note">0 vendas realizadas</div></article>
+        </div>
+        <div class="dashboard-grid">
+          <section class="panel inventory-panel">
+            <div class="panel-heading"><div><div class="eyebrow">A TUA MONTRA</div><h2>Carros no stand</h2></div><button class="text-button" data-goto="stand">Ver todos <span>→</span></button></div>
+            <div id="dashboard-inventory" class="car-list"></div>
+          </section>
+          <section class="panel market-feature">
+            <div class="panel-heading"><div><div class="eyebrow">OPORTUNIDADES DO DIA</div><h2>À procura de negócio?</h2></div><span class="sparkle">✦</span></div>
+            <p class="panel-copy">Encontra carros abaixo do preço de mercado, prepara-os e vende com margem.</p>
+            <div class="market-callout"><div class="callout-car">🚙</div><div><strong id="market-feature-title">Novas oportunidades</strong><span id="market-feature-copy">Há bons negócios à tua espera.</span></div><span class="callout-arrow">↗</span></div>
+            <button class="secondary-button full-button" data-goto="mercado">Explorar mercado <span>→</span></button>
+            <div class="tip-box"><span>💡</span><p><strong>Dica de gerente</strong>Uma revisão aumenta a confiança dos compradores e pode ajudar-te a vender por mais.</p></div>
+          </section>
+        </div>
+        <section class="panel activity-panel"><div class="panel-heading"><div><div class="eyebrow">O QUE SE PASSA</div><h2>Atividade recente</h2></div></div><div id="activity-list" class="activity-list"></div></section>
+      </section>
+
+      <section class="view" id="view-mercado">
+        <div class="page-heading"><div><div class="eyebrow">COMPRA COM CABEÇA</div><h1>Mercado de usados<span class="accent">.</span></h1><p class="subtitle">Bons negócios começam com uma boa compra.</p></div><div class="market-day-tag">OFERTAS DO DIA <span id="market-day">01</span></div></div>
+        <div class="market-banner"><span class="banner-icon">✦</span><div><strong>Oportunidades selecionadas para ti</strong><span>Compara o preço pedido com o valor estimado de mercado.</span></div><div class="banner-count"><strong id="market-count">0</strong><span>disponíveis</span></div></div>
+        <div id="market-list" class="market-grid"></div>
+      </section>
+
+      <section class="view" id="view-stand">
+        <div class="page-heading"><div><div class="eyebrow">GESTÃO DE INVENTÁRIO</div><h1>O meu stand<span class="accent">.</span></h1><p class="subtitle">Prepara, define o preço e fecha negócio.</p></div><div class="inventory-summary"><span>CARROS EM STOCK</span><strong id="stand-count">0</strong></div></div>
+        <div id="stand-list" class="stand-grid"></div>
+      </section>
+      <footer class="app-footer">GARAGEM SIMULADOR <span>·</span> Um negócio de cada vez.</footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="modal-backdrop" id="modal-backdrop" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" id="modal-close" aria-label="Fechar">×</button><div class="modal-icon">↻</div><h2 id="modal-title">Recomeçar simulação?</h2><p>O teu progresso atual será apagado e começarás um novo negócio.</p><div class="modal-actions"><button class="secondary-button" id="modal-cancel">Continuar a jogar</button><button class="danger-button" id="modal-confirm">Recomeçar</button></div></section></div>
+  <script src="app.js"></script>
+</body>
+</html>
