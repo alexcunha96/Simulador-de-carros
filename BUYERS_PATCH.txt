@@ -1,0 +1,1 @@
+// Compatibility patch marker — functionality requires the full app update.
