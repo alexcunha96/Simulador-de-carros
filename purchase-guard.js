@@ -1,8 +1,15 @@
 (function(){
   'use strict';
-  var GAME_KEY='garagem-simulador-v1';
+  var GAME_KEY='garagem-simulador-v1',toastTimer;
   function readGame(){try{return JSON.parse(localStorage.getItem(GAME_KEY));}catch(error){return null;}}
-  function notify(message){var node=document.getElementById('toast');if(node){node.textContent=message;node.classList.add('show');}}
+  function notify(message){
+    var node=document.getElementById('toast');
+    if(!node)return;
+    node.textContent=message;
+    node.classList.add('show');
+    window.clearTimeout(toastTimer);
+    toastTimer=window.setTimeout(function(){node.classList.remove('show');},2600);
+  }
   document.addEventListener('click',function(event){
     var button=event.target;
     while(button&&button!==document&&String(button.tagName).toLowerCase()!=='button')button=button.parentNode;
@@ -29,7 +36,7 @@
     try{localStorage.setItem(GAME_KEY,JSON.stringify(game));}
     catch(error){button.disabled=false;notify('Não foi possível guardar a compra. Verifica o espaço disponível no navegador.');return;}
     notify(car.model+' comprado e guardado no teu stand.');
-    // Let the career script register the daily mission, then refresh the UI from saved state.
-    window.setTimeout(function(){window.location.reload();},500);
+    // Reload once after the confirmation; the toast timeout is independent so it cannot remain stuck.
+    window.setTimeout(function(){window.location.reload();},1500);
   },true);
 })();
